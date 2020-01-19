@@ -1,7 +1,7 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ivan Kopnin](https://up.htmlacademy.ru/javascript/19/user/1132759).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Русаков](https://htmlacademy.ru/profile/id6302).
 
 ---
 
