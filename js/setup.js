@@ -49,9 +49,11 @@ var FIREBALL_COLORS = [
 
 var WIZARD_AMOUNT = 4;
 
+var ESC_KEY = 'Escape';
+var ENTER_KEY = 'Enter';
+
 var wizardTemplate = document.querySelector('#similar-wizard-template')
   .content.querySelector('.setup-similar-item');
-
 
 var getRandomInt = function (maxInt) {
   return Math.floor(Math.random() * maxInt);
@@ -109,9 +111,6 @@ var wizards = createRandomWizards();
 
 renderWizards(wizards);
 
-var ESC_KEY = 'Escape';
-var ENTER_KEY = 'Enter';
-
 var setupDialog = document.querySelector('.setup');
 var setupOpenButton = document.querySelector('.setup-open');
 var setupCloseButton = setupDialog.querySelector('.setup-close');
@@ -119,35 +118,49 @@ var wizardNameInput = setupDialog.querySelector('.setup-user-name');
 
 var openSetupDialog = function () {
   setupDialog.classList.remove('hidden');
-  document.addEventListener('keydown', onDialogEscKeydown);
+  document.addEventListener('keydown', dialogEscKeydownHandler);
 };
 
 var closeSetupDialog = function () {
   setupDialog.classList.add('hidden');
-  document.removeEventListener('keydown', onDialogEscKeydown);
+  document.removeEventListener('keydown', dialogEscKeydownHandler);
 };
 
-var onDialogEscKeydown = function (evt) {
-  if (evt.key === ESC_KEY && document.activeElement !== wizardNameInput) {
+var dialogEscKeydownHandler = function (evt) {
+  if (evt.key !== ESC_KEY) {
+    return;
+  }
+
+  if (evt.target !== wizardNameInput) {
     closeSetupDialog();
   }
 };
 
-setupOpenButton.addEventListener('click', openSetupDialog);
+var setupOpenButtonClickHandler = function () {
+  openSetupDialog();
+};
 
-setupOpenButton.addEventListener('keydown', function (evt) {
+var setupOpenButtonEnterKeydownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     openSetupDialog();
   }
-});
+};
 
-setupCloseButton.addEventListener('click', closeSetupDialog);
+var setupCloseButtonClickHandler = function () {
+  closeSetupDialog();
+};
 
-setupCloseButton.addEventListener('keydown', function (evt) {
+var setupCloseButtonEnterKeydownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
     closeSetupDialog();
   }
-});
+};
+
+setupOpenButton.addEventListener('click', setupOpenButtonClickHandler);
+setupOpenButton.addEventListener('keydown', setupOpenButtonEnterKeydownHandler);
+
+setupCloseButton.addEventListener('click', setupCloseButtonClickHandler);
+setupCloseButton.addEventListener('keydown', setupCloseButtonEnterKeydownHandler);
 
 var wizardCoat = setupDialog.querySelector('.wizard-coat');
 var coatColorInput = setupDialog.querySelector('.coat-color-input');
@@ -159,21 +172,24 @@ var wizardFireballWrap = setupDialog.querySelector('.setup-fireball-wrap');
 var wizardFireball = wizardFireballWrap.querySelector('.setup-fireball');
 var fireballColorInput = setupDialog.querySelector('.fireball-color-input');
 
+var getPropertyToChange = function (wizardItem) {
+  return wizardItem.classList.contains('setup-fireball-wrap') ?
+    'backgroundColor' :
+    'fill';
+};
+
 var changeWizardItemColor = function (wizardItem, colorInput, colors) {
   var randomColor = getRandomElement(colors);
 
-  var propertyToChange = wizardItem === wizardFireballWrap ?
-    'backgroundColor' : 'fill';
+  var propertyToChange = getPropertyToChange(wizardItem);
 
   wizardItem.style[propertyToChange] = randomColor;
 
   colorInput.value = randomColor;
 };
 
-setupDialog.addEventListener('click', function (evt) {
-  var target = evt.target;
-
-  switch (target) {
+var wizardItemClickHandler = function (evt) {
+  switch (evt.target) {
     case wizardCoat:
       changeWizardItemColor(wizardCoat, coatColorInput, COAT_COLORS);
       break;
@@ -184,4 +200,6 @@ setupDialog.addEventListener('click', function (evt) {
       changeWizardItemColor(wizardFireballWrap, fireballColorInput, FIREBALL_COLORS);
       break;
   }
-});
+};
+
+setupDialog.addEventListener('click', wizardItemClickHandler);
