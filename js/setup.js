@@ -188,8 +188,8 @@ var changeWizardItemColor = function (wizardItem, colorInput, colors) {
   colorInput.value = randomColor;
 };
 
-var wizardItemClickHandler = function (evt) {
-  switch (evt.target) {
+var changeWizardItemWithCorrespondingColors = function (item) {
+  switch (item) {
     case wizardCoat:
       changeWizardItemColor(wizardCoat, coatColorInput, COAT_COLORS);
       break;
@@ -200,6 +200,10 @@ var wizardItemClickHandler = function (evt) {
       changeWizardItemColor(wizardFireballWrap, fireballColorInput, FIREBALL_COLORS);
       break;
   }
+};
+
+var wizardItemClickHandler = function (evt) {
+  changeWizardItemWithCorrespondingColors(evt.target);
 };
 
 setupDialog.addEventListener('click', wizardItemClickHandler);
