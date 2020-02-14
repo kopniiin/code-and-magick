@@ -26,8 +26,22 @@
     '#e6e848'
   ];
 
+  var SVG_ELEMENT = 'use';
+
+  var getRandomCoatColor = function () {
+    return window.utils.getRandomElement(COAT_COLORS);
+  };
+
+  var getRandomEyesColor = function () {
+    return window.utils.getRandomElement(EYES_COLORS);
+  };
+
+  var getRandomFireballColor = function () {
+    return window.utils.getRandomElement(FIREBALL_COLORS);
+  };
+
   var getPropertyToChange = function (element) {
-    return element.tagName.toLowerCase() === 'use' ?
+    return element.tagName.toLowerCase() === SVG_ELEMENT ?
       'fill' : 'backgroundColor';
   };
 
@@ -38,9 +52,9 @@
   };
 
   window.colors = {
-    coatColors: COAT_COLORS,
-    eyesColors: EYES_COLORS,
-    fireballColors: FIREBALL_COLORS,
+    getRandomCoatColor: getRandomCoatColor,
+    getRandomEyesColor: getRandomEyesColor,
+    getRandomFireballColor: getRandomFireballColor,
     colorizeElement: colorizeElement
   };
 })();

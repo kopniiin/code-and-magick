@@ -32,8 +32,8 @@
     var name = window.utils.getRandomElement(WIZARD_NAMES);
     var surname = window.utils.getRandomElement(WIZARD_SURNAMES);
     var fullName = name + ' ' + surname;
-    var coatColor = window.utils.getRandomElement(window.colors.coatColors);
-    var eyesColor = window.utils.getRandomElement(window.colors.eyesColors);
+    var coatColor = window.colors.getRandomCoatColor();
+    var eyesColor = window.colors.getRandomEyesColor();
 
     return {
       name: fullName,
@@ -56,8 +56,15 @@
     var wizardElement = wizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-    wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+
+    window.colors.colorizeElement(
+        wizardElement.querySelector('.wizard-coat'),
+        wizard.coatColor
+    );
+    window.colors.colorizeElement(
+        wizardElement.querySelector('.wizard-eyes'),
+        wizard.eyesColor
+    );
 
     return wizardElement;
   };

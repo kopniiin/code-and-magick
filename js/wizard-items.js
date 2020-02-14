@@ -13,24 +13,22 @@
   var wizardFireball = wizardFireballWrap.querySelector('.setup-fireball');
   var fireballColorInput = itemsContainer.querySelector('.fireball-color-input');
 
-  var changeWizardItemColor = function (wizardItem, colorInput, colors) {
-    var randomColor = window.utils.getRandomElement(colors);
+  var changeWizardItemColor = function (wizardItem, colorInput, color) {
+    window.colors.colorizeElement(wizardItem, color);
 
-    window.colors.colorizeElement(wizardItem, randomColor);
-
-    colorInput.value = randomColor;
+    colorInput.value = color;
   };
 
   var changeWizardItemWithCorrespondingColors = function (item) {
     switch (item) {
       case wizardCoat:
-        changeWizardItemColor(wizardCoat, coatColorInput, window.colors.coatColors);
+        changeWizardItemColor(wizardCoat, coatColorInput, window.colors.getRandomCoatColor());
         break;
       case wizardEyes:
-        changeWizardItemColor(wizardEyes, eyesColorInput, window.colors.eyesColors);
+        changeWizardItemColor(wizardEyes, eyesColorInput, window.colors.getRandomEyesColor());
         break;
       case wizardFireball:
-        changeWizardItemColor(wizardFireballWrap, fireballColorInput, window.colors.fireballColors);
+        changeWizardItemColor(wizardFireballWrap, fireballColorInput, window.colors.getRandomFireballColor());
         break;
     }
   };

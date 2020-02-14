@@ -6,6 +6,15 @@
   var closeButton = dialog.querySelector('.setup-close');
   var wizardNameField = dialog.querySelector('.setup-user-name');
 
+  var initialDialogCoords = {
+    x: dialog.style.left,
+    y: dialog.style.top
+  };
+
+  var resetPosition = function () {
+    window.setupDialogDND.setPosition(initialDialogCoords);
+  };
+
   var openDialog = function () {
     dialog.classList.remove('hidden');
     document.addEventListener('keydown', dialogEscKeydownHandler);
@@ -13,7 +22,7 @@
 
   var closeDialog = function () {
     dialog.classList.add('hidden');
-    window.setupDialogDND.returnToInitialPosition();
+    resetPosition();
     document.removeEventListener('keydown', dialogEscKeydownHandler);
   };
 
