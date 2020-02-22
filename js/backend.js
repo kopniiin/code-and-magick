@@ -1,60 +1,30 @@
 'use strict';
 
 (function () {
-  var URL_TO_DOWNLOAD_DATA = 'https://js.dump.academy/code-and-magick/data';
-  var URL_TO_UPLOAD_DATA = 'https://js.dump.academy/code-and-magic';
-
-  var OK_STATUS = 200;
-
-  var TIME_TO_WAIT_RESPONSE = 10000;
-
-  var activateXhrHandlers = function (xhr, successHandler, errorHandler) {
-    var xhrLoadHandler = function () {
-      if (xhr.status === OK_STATUS) {
-        successHandler(xhr.response);
-      } else {
-        errorHandler(
-            'Что-то пошло не по плану. Статус ответа: ' + xhr.status
-        );
-      }
-    };
-
-    var xhrErrorHandler = function () {
-      errorHandler('Произошла ошибка соединения');
-    };
-
-    var xhrTimeoutHandler = function () {
-      errorHandler('Время ожидания ответа истекло');
-    };
-
-    xhr.addEventListener('load', xhrLoadHandler);
-    xhr.addEventListener('error', xhrErrorHandler);
-    xhr.addEventListener('timeout', xhrTimeoutHandler);
+  var Url = {
+    LOAD: 'https://js.dump.academy/code-and-magick/data',
+    SAVE: 'https://js.dump.academy/code-and-magick'
   };
 
-  var download = function (successHandler, errorHandler) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = TIME_TO_WAIT_RESPONSE;
-
-    activateXhrHandlers(xhr, successHandler, errorHandler);
-
-    xhr.open('GET', URL_TO_DOWNLOAD_DATA);
-    xhr.send();
+  var load = function (successHandler, errorHandler) {
+    window.serverRequest.send({
+      url: Url.LOAD,
+      successHandler: successHandler,
+      errorHandler: errorHandler
+    });
   };
 
-  var upload = function (data, successHandler, errorHandler) {
-    var xhr = new XMLHttpRequest();
-    xhr.timeout = TIME_TO_WAIT_RESPONSE;
-
-    activateXhrHandlers(xhr, successHandler, errorHandler);
-
-    xhr.open('POST', URL_TO_UPLOAD_DATA);
-    xhr.send(data);
+  var save = function (data, successHandler, errorHandler) {
+    window.serverRequest.send({
+      url: Url.SAVE,
+      data: data,
+      successHandler: successHandler,
+      errorHandler: errorHandler
+    });
   };
 
   window.backend = {
-    download: download,
-    upload: upload
+    load: load,
+    save: save
   };
 })();

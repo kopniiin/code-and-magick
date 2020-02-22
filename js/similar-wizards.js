@@ -37,14 +37,14 @@
     document.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var downloadSuccessHandler = function (wizards) {
+  var loadSuccessHandler = function (wizards) {
     renderWizards(wizards);
     showWizards();
   };
 
-  var downloadErrorHandler = function (errorMessage) {
+  var loadErrorHandler = function (errorMessage) {
     window.message.show(errorMessage, true);
   };
 
-  window.backend.download(downloadSuccessHandler, downloadErrorHandler);
+  window.backend.load(loadSuccessHandler, loadErrorHandler);
 })();

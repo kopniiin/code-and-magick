@@ -37,22 +37,22 @@
     changeItemWithCorrespondingColors(evt.target);
   };
 
-  var submitSuccessHandler = function () {
+  var saveSuccessHandler = function () {
     window.setupDialog.notify('submit');
     window.message.show('Данные успешно отправлены');
   };
 
-  var submitErrorHandler = function (errorMessage) {
+  var saveErrorHandler = function (errorMessage) {
     window.message.show(errorMessage, true);
   };
 
   var formSubmitHandler = function (evt) {
     evt.preventDefault();
 
-    window.backend.upload(
+    window.backend.save(
         new FormData(itemsForm),
-        submitSuccessHandler,
-        submitErrorHandler
+        saveSuccessHandler,
+        saveErrorHandler
     );
   };
 
