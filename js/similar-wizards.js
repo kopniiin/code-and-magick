@@ -1,56 +1,10 @@
 'use strict';
 
 (function () {
-  var WIZARD_NAMES = [
-    'Иван',
-    'Хуан Себастьян',
-    'Мария',
-    'Кристоф',
-    'Виктор',
-    'Юлия',
-    'Люпита',
-    'Вашингтон'
-  ];
-
-  var WIZARD_SURNAMES = [
-    'да Марья',
-    'Верон',
-    'Мирабелла',
-    'Вальц',
-    'Онопко',
-    'Топольницкая',
-    'Нионго',
-    'Ирвинг'
-  ];
-
-  var WIZARD_AMOUNT = 4;
+  var WIZARDS_AMOUNT = 4;
 
   var wizardTemplate = document.querySelector('#similar-wizard-template')
     .content.querySelector('.setup-similar-item');
-
-  var createRandomWizard = function () {
-    var name = window.utils.getRandomElement(WIZARD_NAMES);
-    var surname = window.utils.getRandomElement(WIZARD_SURNAMES);
-    var fullName = name + ' ' + surname;
-    var coatColor = window.colors.getRandomCoatColor();
-    var eyesColor = window.colors.getRandomEyesColor();
-
-    return {
-      name: fullName,
-      coatColor: coatColor,
-      eyesColor: eyesColor
-    };
-  };
-
-  var createRandomWizards = function () {
-    var wizards = [];
-
-    for (var i = 0; i < WIZARD_AMOUNT; i++) {
-      wizards.push(createRandomWizard());
-    }
-
-    return wizards;
-  };
 
   var createWizardElement = function (wizard) {
     var wizardElement = wizardTemplate.cloneNode(true);
@@ -59,11 +13,11 @@
 
     window.colors.colorizeElement(
         wizardElement.querySelector('.wizard-coat'),
-        wizard.coatColor
+        wizard.colorCoat
     );
     window.colors.colorizeElement(
         wizardElement.querySelector('.wizard-eyes'),
-        wizard.eyesColor
+        wizard.colorEyes
     );
 
     return wizardElement;
@@ -72,7 +26,7 @@
   var renderWizards = function (wizards) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < wizards.length; i++) {
+    for (var i = 0; i < WIZARDS_AMOUNT; i++) {
       fragment.appendChild(createWizardElement(wizards[i]));
     }
 
@@ -83,7 +37,14 @@
     document.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var wizards = createRandomWizards();
-  renderWizards(wizards);
-  showWizards();
+  var loadSuccessHandler = function (wizards) {
+    renderWizards(wizards);
+    showWizards();
+  };
+
+  var loadErrorHandler = function (errorMessage) {
+    window.message.show(errorMessage, true);
+  };
+
+  window.backend.load(loadSuccessHandler, loadErrorHandler);
 })();

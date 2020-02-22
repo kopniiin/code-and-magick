@@ -56,9 +56,19 @@
     }
   };
 
+  var notify = function (event) {
+    if (event === 'submit') {
+      closeDialog();
+    }
+  };
+
   openButton.addEventListener('click', openButtonClickHandler);
   openButton.addEventListener('keydown', openButtonEnterKeydownHandler);
 
   closeButton.addEventListener('click', closeButtonClickHandler);
   closeButton.addEventListener('keydown', closeButtonEnterKeydownHandler);
+
+  window.setupDialog = {
+    notify: notify
+  };
 })();
