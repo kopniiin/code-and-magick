@@ -71,4 +71,15 @@
 
   itemsForm.addEventListener('click', itemClickHandler);
   itemsForm.addEventListener('submit', formSubmitHandler);
+
+  var getColors = function () {
+    return {
+      coatColor: coatColorField.value,
+      eyesColor: eyesColorField.value
+    };
+  };
+
+  window.wizardItems = {
+    getColors: getColors
+  };
 })();

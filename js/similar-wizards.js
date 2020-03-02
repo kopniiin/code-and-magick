@@ -43,6 +43,18 @@
     wizardsContainer.appendChild(fragment);
   };
 
+  var compareNames = function (left, right) {
+    if (left > right) {
+      return 1;
+    }
+
+    if (left < right) {
+      return -1;
+    }
+
+    return 0;
+  };
+
   var calculateSimilarity = function (wizard) {
     var similarity = 0;
 
@@ -61,7 +73,7 @@
     var similarityDiff = calculateSimilarity(right) - calculateSimilarity(left);
 
     return similarityDiff === 0 ?
-      window.utils.comparator(left.name, right.name) :
+      compareNames(left.name, right.name) :
       similarityDiff;
   };
 
@@ -81,7 +93,7 @@
 
   var loadSuccessHandler = function (newWizards) {
     save(newWizards);
-    render(newWizards);
+    update(window.wizardItems.getColors());
     show();
   };
 

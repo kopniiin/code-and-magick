@@ -64,10 +64,7 @@
 
   var handleChangeNotification = function (target) {
     if (target === coatColorField || target === eyesColorField) {
-      window.similarWizards.update({
-        coatColor: coatColorField.value,
-        eyesColor: eyesColorField.value
-      });
+      window.similarWizards.update(window.wizardItems.getColors());
     }
   };
 

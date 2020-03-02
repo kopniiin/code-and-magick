@@ -20,23 +20,10 @@
     return array[getRandomInt(array.length)];
   };
 
-  var comparator = function (left, right) {
-    if (left > right) {
-      return 1;
-    }
-
-    if (left < right) {
-      return -1;
-    }
-
-    return 0;
-  };
-
   window.utils = {
     checkEscKey: checkEscKey,
     checkEnterKey: checkEnterKey,
     getRandomInt: getRandomInt,
-    getRandomElement: getRandomElement,
-    comparator: comparator
+    getRandomElement: getRandomElement
   };
 })();
