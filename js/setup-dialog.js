@@ -5,6 +5,8 @@
   var openButton = document.querySelector('.setup-open');
   var closeButton = dialog.querySelector('.setup-close');
   var wizardNameField = dialog.querySelector('.setup-user-name');
+  var coatColorField = dialog.querySelector('.coat-color-input');
+  var eyesColorField = dialog.querySelector('.eyes-color-input');
 
   var initialDialogCoords = {
     x: dialog.style.left,
@@ -15,12 +17,12 @@
     window.setupDialogDND.setPosition(initialDialogCoords);
   };
 
-  var openDialog = function () {
+  var open = function () {
     dialog.classList.remove('hidden');
     document.addEventListener('keydown', dialogEscKeydownHandler);
   };
 
-  var closeDialog = function () {
+  var close = function () {
     dialog.classList.add('hidden');
     resetPosition();
     document.removeEventListener('keydown', dialogEscKeydownHandler);
@@ -32,33 +34,48 @@
     }
 
     if (evt.target !== wizardNameField) {
-      closeDialog();
+      close();
     }
   };
 
   var openButtonClickHandler = function () {
-    openDialog();
+    open();
   };
 
   var openButtonEnterKeydownHandler = function (evt) {
     if (window.utils.checkEnterKey(evt.key)) {
-      openDialog();
+      open();
     }
   };
 
   var closeButtonClickHandler = function () {
-    closeDialog();
+    close();
   };
 
   var closeButtonEnterKeydownHandler = function (evt) {
     if (window.utils.checkEnterKey(evt.key)) {
-      closeDialog();
+      close();
     }
   };
 
-  var notify = function (event) {
-    if (event === 'submit') {
-      closeDialog();
+  var handleSubmitNotification = function () {
+    close();
+  };
+
+  var handleChangeNotification = function (target) {
+    if (target === coatColorField || target === eyesColorField) {
+      window.similarWizards.update(window.wizardItems.getColors());
+    }
+  };
+
+  var notify = function (event, target) {
+    switch (event) {
+      case 'submit':
+        handleSubmitNotification();
+        break;
+      case 'change':
+        handleChangeNotification(target);
+        break;
     }
   };
 

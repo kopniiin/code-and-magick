@@ -4,31 +4,44 @@
   var itemsForm = document.querySelector('.setup-wizard-form');
 
   var coat = itemsForm.querySelector('.wizard-coat');
-  var coatColorInput = itemsForm.querySelector('.coat-color-input');
+  var coatColorField = itemsForm.querySelector('.coat-color-input');
 
   var eyes = itemsForm.querySelector('.wizard-eyes');
-  var eyesColorInput = itemsForm.querySelector('.eyes-color-input');
+  var eyesColorField = itemsForm.querySelector('.eyes-color-input');
 
   var fireballWrap = itemsForm.querySelector('.setup-fireball-wrap');
   var fireball = fireballWrap.querySelector('.setup-fireball');
-  var fireballColorInput = itemsForm.querySelector('.fireball-color-input');
+  var fireballColorField = itemsForm.querySelector('.fireball-color-input');
 
-  var changeItemColor = function (item, colorInput, color) {
+  var changeItemColor = function (item, color, field) {
     window.colors.colorizeElement(item, color);
 
-    colorInput.value = color;
+    field.value = color;
+    window.setupDialog.notify('change', field);
   };
 
   var changeItemWithCorrespondingColors = function (item) {
     switch (item) {
       case coat:
-        changeItemColor(coat, coatColorInput, window.colors.getRandomCoatColor());
+        changeItemColor(
+            coat,
+            window.colors.getRandomCoatColor(),
+            coatColorField
+        );
         break;
       case eyes:
-        changeItemColor(eyes, eyesColorInput, window.colors.getRandomEyesColor());
+        changeItemColor(
+            eyes,
+            window.colors.getRandomEyesColor(),
+            eyesColorField
+        );
         break;
       case fireball:
-        changeItemColor(fireballWrap, fireballColorInput, window.colors.getRandomFireballColor());
+        changeItemColor(
+            fireballWrap,
+            window.colors.getRandomFireballColor(),
+            fireballColorField
+        );
         break;
     }
   };
@@ -58,4 +71,15 @@
 
   itemsForm.addEventListener('click', itemClickHandler);
   itemsForm.addEventListener('submit', formSubmitHandler);
+
+  var getColors = function () {
+    return {
+      coatColor: coatColorField.value,
+      eyesColor: eyesColorField.value
+    };
+  };
+
+  window.wizardItems = {
+    getColors: getColors
+  };
 })();
